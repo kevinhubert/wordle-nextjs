@@ -5,7 +5,6 @@ import Head from 'next/head'
 
 // Data
 import {words, getWord} from '../words';
-console.log(getWord());
 
 // Custom Components
 import Header from '../components/Header';
@@ -14,20 +13,32 @@ import GameKeyboard from "../components/GameKeyboard";
 
 const Home: NextPage = () => {
 
-  // Create user word
-  const [word, updateWord] = useState([]);
+  // generate answer and add to state
+  const [answer, getNewAnswer] = useState(getWord());
+  console.log(answer)
+
+  // gather user inputs
+  const [userWord, updateWord] = useState([]);
 
   const handleAddLetter = (letter) => {
-    if (word.length < 5) {
-      return updateWord([...word, letter])
+    if (userWord.length < 5) {
+      return updateWord([...userWord, letter])
     }
   }
   const handleDeleteLetter = () => {
-    updateWord(word => {
-      if (word.length > 0) {
-        return word.slice(0, word.length-1);
-      }
+    updateWord(() => {
+      if (userWord.length > 0) {
+        return userWord.slice(0, userWord.length-1);
+      } else return;
     })
+  }
+  const handleSubmitWord = () => {
+    const wordString = userWord.join('');
+    if (words.answers.includes(wordString)) {
+      console.log('you guessed a real word')
+    } else {
+      alert('not a word')
+    }
   }
 
 
@@ -39,8 +50,8 @@ const Home: NextPage = () => {
         <script src="https://cdn.tailwindcss.com"></script>
       </Head>
       <Header />
-      <GameGrid />
-      <GameKeyboard handleAddLetter={handleAddLetter} handleDeleteLetter={handleDeleteLetter}/>
+      <GameGrid userWord={userWord} />
+      <GameKeyboard handleAddLetter={handleAddLetter} handleDeleteLetter={handleDeleteLetter} handleSubmitWord={handleSubmitWord} />
     </div>
   )
 }

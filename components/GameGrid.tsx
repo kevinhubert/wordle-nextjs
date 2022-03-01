@@ -1,10 +1,14 @@
 import GameTile from "./GameTile";
 
-const GameGrid = () => {
+const GameGrid = (props) => {
     return (
       <div>
         <div className="flex justify-between px-5">
-          <GameTile currentLetter="B"/>
+          {
+            props.userWord.map(letter => {
+            return <GameTile currentLetter={letter}/>
+            })
+          }
         </div>
       </div>
     )
