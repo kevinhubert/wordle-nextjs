@@ -1,8 +1,12 @@
-import React from 'react';
+import GameTile from "./GameTile";
 
 const GameGrid = () => {
     return (
-      <div>This is the game grid</div>
+      <div>
+        <div className="flex justify-between px-5">
+          <GameTile currentLetter="B"/>
+        </div>
+      </div>
     )
   }
 
